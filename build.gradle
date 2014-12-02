@@ -7,12 +7,14 @@ buildscript {
     }
     dependencies {
         classpath 'org.akhikhl.wuff:wuff-plugin:0.0.12'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.akhikhl.wuff.eclipse-bundle'
+apply plugin: 'com.jfrog.bintray'
 
 sourceCompatibility = 1.7
 group = 'io.github.kewne'
@@ -37,5 +39,29 @@ jar {
         instruction 'Require-Bundle: org.eclipse.core.runtime'
         instruction 'Require-Bundle: org.eclipse.birt.report.engine'
 
+    }
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
+}
+
+bintray {
+    user = System.getProperty("bintray_user")
+    key = System.getProperty("bintray_apikey")
+
+    configurations = ['runtime']
+    dryRun = false
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = 'spring-birt'
+        websiteUrl = 'https://github.com/kewne/spring-birt'
+        issueTrackerUrl = 'https://github.com/kewne/spring-birt/issues'
+        vcsUrl = 'git@github.com:kewne/spring-birt'
+        licenses = ['Apache-2.0']
+        publicDownloadNumbers = true
+        version {
+            name = '1.0.0'
+        }
     }
 }
