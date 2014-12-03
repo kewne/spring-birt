@@ -13,7 +13,6 @@ public class XlsBirtReportView extends AbstractBirtReportView {
         EXCELRenderOption opt = new EXCELRenderOption();
         opt.setOutputFormat("xlsx");
         opt.setOutputStream(response.getOutputStream());
-        response.setHeader("Content-Disposition", "attachment; filename=report.xlsx");
         return opt;
     }
 
