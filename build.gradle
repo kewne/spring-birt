@@ -50,11 +50,25 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourceJar
+    archives javadocJar
+}
+
 bintray {
     user = System.getProperty("bintray_user")
     key = System.getProperty("bintray_apikey")
 
-    configurations = ['runtime']
+    configurations = ['archives']
     dryRun = false
     publish = true
     pkg {
